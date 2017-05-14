@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arena.mapper.BankcardMapper" >
+  <resultMap id="BaseResultMap" type="com.arena.pojo.Bankcard" >
+    <id column="bcid" property="bcid" jdbcType="VARCHAR" />
+    <result column="bcidcard" property="bcidcard" jdbcType="CHAR" />
+    <result column="bmoney" property="bmoney" jdbcType="DECIMAL" />
+    <result column="bdate" property="bdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bcid, bcidcard, bmoney, bdate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.arena.pojo.BankcardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bankcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bankcard
+    where bcid = #{bcid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bankcard
+    where bcid = #{bcid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.arena.pojo.BankcardExample" >
+    delete from bankcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.arena.pojo.Bankcard" >
+    insert into bankcard (bcid, bcidcard, bmoney, 
+      bdate)
+    values (#{bcid,jdbcType=VARCHAR}, #{bcidcard,jdbcType=CHAR}, #{bmoney,jdbcType=DECIMAL}, 
+      #{bdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arena.pojo.Bankcard" >
+    insert into bankcard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bcid != null" >
+        bcid,
+      </if>
+      <if test="bcidcard != null" >
+        bcidcard,
+      </if>
+      <if test="bmoney != null" >
+        bmoney,
+      </if>
+      <if test="bdate != null" >
+        bdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bcid != null" >
+        #{bcid,jdbcType=VARCHAR},
+      </if>
+      <if test="bcidcard != null" >
+        #{bcidcard,jdbcType=CHAR},
+      </if>
+      <if test="bmoney != null" >
+        #{bmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="bdate != null" >
+        #{bdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.arena.pojo.BankcardExample" resultType="java.lang.Integer" >
+    select count(*) from bankcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bankcard
+    <set >
+      <if test="record.bcid != null" >
+        bcid = #{record.bcid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcidcard != null" >
+        bcidcard = #{record.bcidcard,jdbcType=CHAR},
+      </if>
+      <if test="record.bmoney != null" >
+        bmoney = #{record.bmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bdate != null" >
+        bdate = #{record.bdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bankcard
+    set bcid = #{record.bcid,jdbcType=VARCHAR},
+      bcidcard = #{record.bcidcard,jdbcType=CHAR},
+      bmoney = #{record.bmoney,jdbcType=DECIMAL},
+      bdate = #{record.bdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arena.pojo.Bankcard" >
+    update bankcard
+    <set >
+      <if test="bcidcard != null" >
+        bcidcard = #{bcidcard,jdbcType=CHAR},
+      </if>
+      <if test="bmoney != null" >
+        bmoney = #{bmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="bdate != null" >
+        bdate = #{bdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bcid = #{bcid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arena.pojo.Bankcard" >
+    update bankcard
+    set bcidcard = #{bcidcard,jdbcType=CHAR},
+      bmoney = #{bmoney,jdbcType=DECIMAL},
+      bdate = #{bdate,jdbcType=TIMESTAMP}
+    where bcid = #{bcid,jdbcType=VARCHAR}
+  </update>
+  
+<!-- <sql id="query_items_where">
+      <if test="bankcard!=null">
+             <if test="bankcard.bid!=null and bankcard.bid!=''">
+                   and bankcard.name like '%${items.name}%'
+             </if>
+      </if>
+</sql>
+
+查询商品信息
+<select id="findBankCardList" parameterType="bankcardQueryVO" resultType="bankcard">
+select * from bankcard
+<where>
+       <include refid="query_items_where"/>
+</where>
+</select> 
+   -->
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>
